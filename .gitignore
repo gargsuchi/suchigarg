@@ -1,0 +1,12 @@
+# Ignore paths that contain user-generated content.
+docroot/files
+docroot/sites/*/files
+docroot/sites/*/private
+docroot/sites/*/local.settings.inc
+docroot/sites/*/drushrc.php
+acquia-files
+local/*
+
+# Ignore operating system files
+.DS_Store
+.idea
