@@ -1,0 +1,5 @@
+services:
+  drupalsouth.request_subscriber:
+    class: Drupal\drupalsouth\EventSubscriber\RequestSubscriber
+    tags:
+      - { name: event_subscriber }
