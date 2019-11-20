@@ -33,8 +33,8 @@ class RequestSubscriber implements EventSubscriberInterface {
     $type = get_class($request);
 
     if ($type == "Alexa\Request\SessionEndedRequest") {
-          $response->respond('Okay. Bye.')
-            ->endSession();
+      $response->respond('Okay. Bye.')
+        ->endSession();
     }
     elseif ($type == "Alexa\Request\LaunchRequest") {
       // The skill was just launched, so welcome the user and provide help.
@@ -55,28 +55,29 @@ class RequestSubscriber implements EventSubscriberInterface {
           $ingredient = $request->getSlot('Ingredient');
           $view = Views::getView('recipe_list');
           $view->setDisplay('block_1');
-          $view->setArguments([ $ingredient ]);
+          $view->setArguments([$ingredient]);
           $view->execute();
-          $result = [];
           if (empty($view->build_info['fail']) and empty($view->build_info['denied'])) {
             $result = $view->result;
             $response_text = '<speak><say-as interpret-as="interjection">' . "These are the recipes for $ingredient" . '</say-as><break strength="medium"/>';
-if (count($result)) {
-          foreach($result AS $id => $row) {
-            foreach ($view->field as $fid => $field) {
-              if ($fid == 'title') {
-		$response_text .= $field->getValue($row) . '<break strength="medium"/>';
-	      }
-	    }
+            if (count($result)) {
+              foreach ($result AS $id => $row) {
+                foreach ($view->field as $fid => $field) {
+                  if ($fid == 'title') {
+                    $response_text .= $field->getValue($row) . '<break strength="medium"/>';
+                  }
+                }
+              }
+              $response_text .= '</speak>';
+            }
+            else {
+              $response_text = "<speak>Sorry. I did not find any recipes for $ingredient.</speak>";
+            }
           }
-$response_text .= '</speak>';
+          else {
+            $response_text = "<speak>Sorry. I did not find any recipes for $ingredient. It seems something went wrong.</speak>";
           }
-else {
-            $response_text = "<speak>Sorry. I did not find any recipes for $ingredient.</speak>";
-
-          }
-}
-            $response->respondSSML($response_text);
+          $response->respondSSML($response_text);
           break;
 
         case 'AMAZON.HelpIntent':
