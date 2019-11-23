@@ -102,6 +102,27 @@ class RequestSubscriber implements EventSubscriberInterface {
           $response->respondSSML($response_text);
           break;
 
+        case 'RecipeIngredientsIntent':
+          // Get the {recipe} slot's value.
+          $recipe = $request->getSlot('recipe');
+          $nodes = \Drupal::entityTypeManager()
+            ->getStorage('node')
+            ->loadByProperties(['title' => $recipe]);
+          $response_text = '<speak><say-as interpret-as="interjection">' . "The ingredient for $recipe is " . '</say-as><break strength="medium"/>';
+          if (count($nodes)) {
+            foreach ($nodes AS $node){
+              $body = $node->field_all_ingredients->value;
+              //$body = $node->get('body')->getString();;
+              $response_text .= $body . '<break strength="strong"/>';
+            }
+            $response_text .= '</speak>';
+          }
+          else {
+            $response_text = "<speak>Sorry. I did not find any recipes named $recipe.</speak>";
+          }
+          $response->respondSSML($response_text);
+          break;
+
         case 'AMAZON.HelpIntent':
           $response->respond('You can say "What can I make with paneer", and I will list recipes for paneer');
           break;
