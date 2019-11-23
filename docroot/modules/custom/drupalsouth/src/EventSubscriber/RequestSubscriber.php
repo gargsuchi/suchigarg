@@ -6,6 +6,7 @@ namespace Drupal\drupalsouth\EventSubscriber;
 use Drupal\alexa\AlexaEvent;
 use Drupal\views\Views;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\Core\Entity\EntityTypeManager;
 
 /**
  * An event subscriber for Alexa request events.
@@ -64,7 +65,7 @@ class RequestSubscriber implements EventSubscriberInterface {
               foreach ($result AS $id => $row) {
                 foreach ($view->field as $fid => $field) {
                   if ($fid == 'title') {
-                    $response_text .= $field->getValue($row) . '<break strength="medium"/>';
+                    $response_text .= $field->getValue($row) . '<break strength="strong"/>';
                   }
                 }
               }
@@ -77,6 +78,27 @@ class RequestSubscriber implements EventSubscriberInterface {
           else {
             $response_text = "<speak>Sorry. I did not find any recipes for $ingredient. It seems something went wrong.</speak>";
           }
+          $response->respondSSML($response_text);
+          break;
+
+        case 'FindRecipeIntent':
+          // Get the {recipe} slot's value.
+          $recipe = $request->getSlot('recipe');
+          $nodes = \Drupal::entityTypeManager()
+		  ->getStorage('node')
+		  ->loadByProperties(['title' => $recipe]);
+            $response_text = '<speak><say-as interpret-as="interjection">' . "The recipe for $recipe is " . '</say-as><break strength="medium"/>';
+            if (count($nodes)) {
+              foreach ($nodes AS $node){
+		    $body = $node->body->value;
+		    //$body = $node->get('body')->getString();;
+                    $response_text .= $body . '<break strength="strong"/>';
+              }
+              $response_text .= '</speak>';
+            }
+            else {
+              $response_text = "<speak>Sorry. I did not find any recipes named $recipe.</speak>";
+            }
           $response->respondSSML($response_text);
           break;
 
