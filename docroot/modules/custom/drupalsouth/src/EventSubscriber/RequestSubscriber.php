@@ -39,15 +39,10 @@ class RequestSubscriber implements EventSubscriberInterface {
     }
     elseif ($type == "Alexa\Request\LaunchRequest") {
       // The skill was just launched, so welcome the user and provide help.
-
-      // A somewhat contrived example of an SSML Alexa response, demonstrating a
-      // few ways you can customize Alexa's annunciation. This could instead
-      // be done simply with a plain ->respond('Welcome! ...') to use Alexa's
-      // default annunciation.
-      $response->respondSSML('<speak><say-as interpret-as="interjection">Welcome!</say-as>
-      Say <prosody volume="loud">What can I make </prosody><break strength="medium"/>
-      with <emphasis level="strong">an ingredient</emphasis><break strength="medium"/>
-      and I\'ll respond with a list of recipes.</speak>');
+      $response->respondSSML('<speak><say-as interpret-as="interjection">Welcome to cooking with Drupal!</say-as>
+      Do you want to search for a recipe using an ingredient?<break strength="medium"/>
+      Or do you want to find the ingredients of a recipe?<break strength="medium"/>
+      I can also tell you the steps of a recipe.</speak>');
     }
     elseif ($type == "Alexa\Request\IntentRequest") {
       switch ($request->intentName) {
@@ -108,7 +103,7 @@ class RequestSubscriber implements EventSubscriberInterface {
           $nodes = \Drupal::entityTypeManager()
             ->getStorage('node')
             ->loadByProperties(['title' => $recipe]);
-          $response_text = '<speak><say-as interpret-as="interjection">' . "The ingredient for $recipe is " . '</say-as><break strength="medium"/>';
+          $response_text = '<speak><say-as interpret-as="interjection">' . "The ingredients for $recipe are " . '</say-as><break strength="medium"/>';
           if (count($nodes)) {
             foreach ($nodes AS $node){
               $body = $node->field_all_ingredients->value;
