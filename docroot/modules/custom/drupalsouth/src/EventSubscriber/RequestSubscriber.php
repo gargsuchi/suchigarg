@@ -85,9 +85,8 @@ class RequestSubscriber implements EventSubscriberInterface {
             $response_text = '<speak><say-as interpret-as="interjection">' . "The recipe for $recipe is " . '</say-as><break strength="medium"/>';
             if (count($nodes)) {
               foreach ($nodes AS $node){
-		    $body = $node->body->value;
-		    //$body = $node->get('body')->getString();;
-                    $response_text .= $body . '<break strength="strong"/>';
+		    $body = ($node->body->value);
+                    $response_text .= str_replace("&nbsp;", "", $body) . '<break strength="strong"/>';
               }
               $response_text .= '</speak>';
             }
