@@ -119,7 +119,7 @@ class RequestSubscriber implements EventSubscriberInterface {
           break;
 
         case 'AMAZON.HelpIntent':
-          $response_text = '<speak><say-as interpret-as="interjection">' . "You can say any of the following " . '</say-as><break strength="medium"/>';
+          $response_text = '<speak>';
           $response_text .= 'You can say "What can I make with paneer", and I will list recipes for paneer. <break strength="strong"/>';
           $response_text .= 'You can say "How do I make palak paneer", and I will list steps for making palak paneer. <break strength="strong"/>';
           $response_text .= 'You can say "What are the ingredients for palak paneer", and I will list ingredients for palak paneer. <break strength="strong"/>';
