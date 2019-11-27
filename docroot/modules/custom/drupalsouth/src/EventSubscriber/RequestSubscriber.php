@@ -127,15 +127,12 @@ class RequestSubscriber implements EventSubscriberInterface {
           break;
 
         case 'AMAZON.StopIntent':
+        case 'AMAZON.ExitIntent':
+        case 'AMAZON.CancelIntent':
           $response_text = '<speak>';
-          $response_text .= 'Ok Bye. Have fun cooking! <break strength="strong"/>';
+          $response_text .= 'Ok Bye. Have fun cooking!';
           $response_text .= '</speak>';
           $response->respondSSML($response_text);
-          break;
-
-        case 'AMAZON.ExitIntent':
-          $response->respond('Okay. Bye.')
-            ->endSession();
           break;
 
         default:
