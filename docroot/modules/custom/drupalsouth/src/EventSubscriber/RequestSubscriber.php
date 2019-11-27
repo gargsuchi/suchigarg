@@ -55,7 +55,7 @@ class RequestSubscriber implements EventSubscriberInterface {
           $view->execute();
           if (empty($view->build_info['fail']) and empty($view->build_info['denied'])) {
             $result = $view->result;
-            $response_text = '<speak><say-as interpret-as="interjection">' . "These are the recipes for $ingredient" . '</say-as><break strength="medium"/>';
+            $response_text = '<speak><say-as interpret-as="interjection">' . "These are the recipes containing $ingredient" . '</say-as><break strength="medium"/>';
             if (count($result)) {
               foreach ($result AS $id => $row) {
                 foreach ($view->field as $fid => $field) {
