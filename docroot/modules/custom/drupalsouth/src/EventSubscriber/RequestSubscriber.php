@@ -82,7 +82,7 @@ class RequestSubscriber implements EventSubscriberInterface {
           $nodes = \Drupal::entityTypeManager()
 		  ->getStorage('node')
 		  ->loadByProperties(['title' => $recipe]);
-            $response_text = '<speak><say-as interpret-as="interjection">' . "The recipe for $recipe is " . '</say-as><break strength="medium"/>';
+            $response_text = '<speak><say-as interpret-as="interjection">all righty.' . "The recipe for $recipe is " . '</say-as><break strength="medium"/>';
             if (count($nodes)) {
               foreach ($nodes AS $node){
 		    $body = ($node->body->value);
@@ -102,7 +102,7 @@ class RequestSubscriber implements EventSubscriberInterface {
           $nodes = \Drupal::entityTypeManager()
             ->getStorage('node')
             ->loadByProperties(['title' => $recipe]);
-          $response_text = '<speak><say-as interpret-as="interjection">' . "The ingredients for $recipe are " . '</say-as><break strength="medium"/>';
+          $response_text = '<speak><say-as interpret-as="interjection">All righty. ' . "The ingredients for $recipe are " . '</say-as><break strength="medium"/>';
           if (count($nodes)) {
             foreach ($nodes AS $node){
               $body = $node->field_all_ingredients->value;
@@ -119,9 +119,16 @@ class RequestSubscriber implements EventSubscriberInterface {
 
         case 'AMAZON.HelpIntent':
           $response_text = '<speak>';
-          $response_text .= 'You can say "What can I make with paneer", and I will list recipes for paneer. <break strength="strong"/>';
-          $response_text .= 'You can say "How do I make palak paneer", and I will list steps for making palak paneer. <break strength="strong"/>';
-          $response_text .= 'You can say "What are the ingredients for palak paneer", and I will list ingredients for palak paneer. <break strength="strong"/>';
+          $response_text .= 'You can say "What can I make with cheese", and I will list recipes for cheese. <break strength="strong"/>';
+          $response_text .= 'You can say "How do I make coconut rice", and I will list steps for making coconut rice. <break strength="strong"/>';
+          $response_text .= 'You can say "What are the ingredients for coconut rice", and I will list ingredients for coconut rice. <break strength="strong"/>';
+          $response_text .= '</speak>';
+          $response->respondSSML($response_text);
+          break;
+
+        case 'AMAZON.StopIntent':
+          $response_text = '<speak>';
+          $response_text .= 'Ok Bye. Have fun cooking! <break strength="strong"/>';
           $response_text .= '</speak>';
           $response->respondSSML($response_text);
           break;
