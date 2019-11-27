@@ -67,7 +67,7 @@ class RequestSubscriber implements EventSubscriberInterface {
               $response_text .= '</speak>';
             }
             else {
-              $response_text = "<speak>Sorry. I did not find any recipes for $ingredient.</speak>";
+              $response_text = "<speak>Sorry. I did not find any recipes containing $ingredient.</speak>";
             }
           }
           else {
