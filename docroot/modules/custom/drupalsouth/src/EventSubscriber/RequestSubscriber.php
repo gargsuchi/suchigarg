@@ -67,11 +67,11 @@ class RequestSubscriber implements EventSubscriberInterface {
               $response_text .= '</speak>';
             }
             else {
-              $response_text = "<speak>Sorry. I did not find any recipes containing $ingredient.</speak>";
+              $response_text = "<speak><say-as interpret-as=\"interjection\">whoops a daisy.</say-as>Sorry. I did not find any recipes containing $ingredient.</speak>";
             }
           }
           else {
-            $response_text = "<speak>Sorry. I did not find any recipes for $ingredient. It seems something went wrong.</speak>";
+            $response_text = "<speak><say-as interpret-as=\"interjection\">whoops a daisy.</say-as>Sorry. I did not find any recipes containing  $ingredient. It seems something went wrong.</speak>";
           }
           $response->respondSSML($response_text);
           break;
