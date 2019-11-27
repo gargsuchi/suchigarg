@@ -13,6 +13,10 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/jakubsuchy/amazon-alexa-php"
         }
     ],
     "require": {
@@ -26,7 +30,9 @@
         "drupal/core": "^8.7.0",
         "drupal/devel": "^2.1",
         "drupal/erd": "^1.0@beta",
+        "drupal/paragraphs": "^1.10",
         "drush/drush": "^9.0.0",
+        "jakubsuchy/amazon-alexa-php": "dev-master",
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3",
