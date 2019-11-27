@@ -82,7 +82,7 @@ class RequestSubscriber implements EventSubscriberInterface {
           $nodes = \Drupal::entityTypeManager()
 		  ->getStorage('node')
 		  ->loadByProperties(['title' => $recipe]);
-            $response_text = '<speak><say-as interpret-as="interjection">all righty.' . "The recipe for $recipe is " . '</say-as><break strength="medium"/>';
+            $response_text = '<speak><say-as interpret-as="interjection">all righty then.</say-as><break strength="medium"/>' . "The recipe for $recipe is " ;
             if (count($nodes)) {
               foreach ($nodes AS $node){
 		    $body = ($node->body->value);
@@ -102,7 +102,7 @@ class RequestSubscriber implements EventSubscriberInterface {
           $nodes = \Drupal::entityTypeManager()
             ->getStorage('node')
             ->loadByProperties(['title' => $recipe]);
-          $response_text = '<speak><say-as interpret-as="interjection">All righty. ' . "The ingredients for $recipe are " . '</say-as><break strength="medium"/>';
+          $response_text = '<speak><say-as interpret-as="interjection">All righty. </say-as><break strength="medium"/>' . "The ingredients for $recipe are ";
           if (count($nodes)) {
             foreach ($nodes AS $node){
               $body = $node->field_all_ingredients->value;
