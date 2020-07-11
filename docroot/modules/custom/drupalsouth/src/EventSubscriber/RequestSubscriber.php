@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\drupalsouth\EventSubscriber;
+
 namespace Drupal\drupalsouth\EventSubscriber;
 
 use Drupal\alexa\AlexaEvent;
@@ -18,7 +19,7 @@ class RequestSubscriber implements EventSubscriberInterface {
    * Gets the event.
    */
   public static function getSubscribedEvents() {
-    $events['alexaevent.request'][] = array('onRequest', 0);
+    $events['alexaevent.request'][] = ['onRequest', 0];
     return $events;
   }
 
@@ -82,19 +83,19 @@ class RequestSubscriber implements EventSubscriberInterface {
           // Get the {recipe} slot's value.
           $recipe = $request->getSlot('recipe');
           $nodes = \Drupal::entityTypeManager()
-		  ->getStorage('node')
-		  ->loadByProperties(['title' => $recipe]);
-            $response_text = '<speak><say-as interpret-as="interjection">all righty then.</say-as><break strength="medium"/>' . "The recipe for $recipe is " ;
-            if (count($nodes)) {
-              foreach ($nodes AS $node){
-		    $body = ($node->body->value);
-                    $response_text .= str_replace("&nbsp;", "", $body) . '<break strength="strong"/>';
-              }
-              $response_text .= '</speak>';
+            ->getStorage('node')
+            ->loadByProperties(['title' => $recipe]);
+          $response_text = '<speak><say-as interpret-as="interjection">all righty then.</say-as><break strength="medium"/>' . "The recipe for $recipe is ";
+          if (count($nodes)) {
+            foreach ($nodes AS $node) {
+              $body = ($node->body->value);
+              $response_text .= str_replace("&nbsp;", "", $body) . '<break strength="strong"/>';
             }
-            else {
-              $response_text = "<speak>Sorry. I did not find any recipes named $recipe.</speak>";
-            }
+            $response_text .= '</speak>';
+          }
+          else {
+            $response_text = "<speak>Sorry. I did not find any recipes named $recipe.</speak>";
+          }
           $response->respondSSML($response_text);
           break;
 
@@ -106,7 +107,7 @@ class RequestSubscriber implements EventSubscriberInterface {
             ->loadByProperties(['title' => $recipe]);
           $response_text = '<speak><say-as interpret-as="interjection">All righty. </say-as><break strength="medium"/>' . "The ingredients for $recipe are ";
           if (count($nodes)) {
-            foreach ($nodes AS $node){
+            foreach ($nodes AS $node) {
               $body = $node->field_all_ingredients->value;
               //$body = $node->get('body')->getString();;
               $response_text .= $body . '<break strength="strong"/>';
@@ -121,11 +122,11 @@ class RequestSubscriber implements EventSubscriberInterface {
 
         case 'AMAZON.HelpIntent':
 
-      $nid = 38;
-      $node = Node::load($nid);
+          $nid = 38;
+          $node = Node::load($nid);
 
-      $body = $node->body->value;
-      $response->respondSSML('<speak>' . $body . '</speak>');
+          $body = $node->body->value;
+          $response->respondSSML('<speak>' . $body . '</speak>');
           break;
 
         case 'AMAZON.StopIntent':

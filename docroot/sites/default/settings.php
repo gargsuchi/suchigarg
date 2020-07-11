@@ -789,13 +789,12 @@ $settings['entity_update_batch_size'] = 50;
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
 $databases['default']['default'] = array (
-  'database' => 'bitnami_drupal8',
-  'username' => 'bn_drupal',
-  'password' => '1ee28b4042',
+  'database' => 'suchigarg',
+  'username' => 'root',
+  'password' => 'root',
   'prefix' => '',
-  'host' => 'localhost',
-  'port' => '3306',
-  'unix_socket' => '/opt/bitnami/mysql/tmp/mysql.sock',
+  'host' => '127.0.0.1',
+  'port' => '8889',
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
   'driver' => 'mysql',
 );
