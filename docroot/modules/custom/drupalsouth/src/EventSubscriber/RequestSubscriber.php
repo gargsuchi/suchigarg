@@ -43,7 +43,6 @@ class RequestSubscriber implements EventSubscriberInterface {
       // The skill was just launched, so welcome the user and provide help.
       $nid = 37;
       $node = Node::load($nid);
-
       $body = $node->body->value;
       $response->respondSSML('<speak>' . $body . '</speak>');
     }
@@ -121,10 +120,8 @@ class RequestSubscriber implements EventSubscriberInterface {
           break;
 
         case 'AMAZON.HelpIntent':
-
           $nid = 38;
           $node = Node::load($nid);
-
           $body = $node->body->value;
           $response->respondSSML('<speak>' . $body . '</speak>');
           break;
