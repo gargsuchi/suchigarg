@@ -7,6 +7,7 @@ use Drupal\alexa\AlexaEvent;
 use Drupal\views\Views;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\node\Entity\Node;
 
 /**
  * An event subscriber for Alexa request events.
@@ -39,10 +40,11 @@ class RequestSubscriber implements EventSubscriberInterface {
     }
     elseif ($type == "Alexa\Request\LaunchRequest") {
       // The skill was just launched, so welcome the user and provide help.
-      $response->respondSSML('<speak><say-as interpret-as="interjection">Welcome to cooking with Drupal!</say-as>
-      Do you want to search for a recipe using an ingredient?<break strength="medium"/>
-      Or do you want to find the ingredients of a recipe?<break strength="medium"/>
-      I can also tell you the steps of a recipe.</speak>');
+      $nid = 37;
+      $node = Node::load($nid);
+
+      $body = $node->body->value;
+      $response->respondSSML('<speak>' . $body . '</speak>');
     }
     elseif ($type == "Alexa\Request\IntentRequest") {
       switch ($request->intentName) {
@@ -118,12 +120,12 @@ class RequestSubscriber implements EventSubscriberInterface {
           break;
 
         case 'AMAZON.HelpIntent':
-          $response_text = '<speak>';
-          $response_text .= 'You can say "What can I make with cheese", and I will list recipes for cheese. <break strength="strong"/>';
-          $response_text .= 'You can say "How do I make coconut rice", and I will list steps for making coconut rice. <break strength="strong"/>';
-          $response_text .= 'You can say "What are the ingredients for coconut rice", and I will list ingredients for coconut rice. <break strength="strong"/>';
-          $response_text .= '</speak>';
-          $response->respondSSML($response_text);
+
+      $nid = 38;
+      $node = Node::load($nid);
+
+      $body = $node->body->value;
+      $response->respondSSML('<speak>' . $body . '</speak>');
           break;
 
         case 'AMAZON.StopIntent':
